@@ -1,0 +1,20 @@
+.mainPortion {
+  transition: margin-left 0.3s ease, width 0.3s ease;
+
+  // When the sidebar is open, the main portion contracts
+  &.sidebar-open {
+    margin-left: 250px; // Adjust this based on your sidebar width
+    width: calc(100% - 250px); // Content width shrinks when sidebar is open
+  }
+
+  // When the sidebar is closed, the main portion expands
+  &.sidebar-closed {
+    margin-left: 0;
+    width: 100%; // Full width when sidebar is closed
+  }
+}
+
+.dashboardMain {
+  padding: 20px;
+  /* Additional styling */
+}

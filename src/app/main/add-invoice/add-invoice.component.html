@@ -149,9 +149,9 @@
                                     <td>
                                         <select [(ngModel)]="items[i].currency" name="currency-{{i}}"
                                             class="small-input">
-                                            <option *ngFor="let currency of currenciesList"
+                                            <option *ngFor="let currency of currencies"
                                                 [ngValue]="currency">
-                                                {{ currency.currencyName}}
+                                                {{ currency}}
                                             </option>
                                         </select>
                                     </td>

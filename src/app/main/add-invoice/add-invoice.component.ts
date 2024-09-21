@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 
 interface Currency {
@@ -41,6 +43,7 @@ export class AddInvoiceComponent implements OnInit {
     {
       vendorInvoiceRef: '',
       vendorId: '',
+      
       costCode: '',
       expenseCode: '',
       quantity: '',
@@ -70,10 +73,10 @@ export class AddInvoiceComponent implements OnInit {
   costCenterList: CostCenter[] = [];
   currenciesList: Currency[] = [];
 
-  constructor(private sidebarService: SidebarService, private http: HttpClient) { } // Inject HttpClient
+  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router) { } // Inject HttpClient
 
   ngOnInit() {
-    this.getAllOtherDetails();
+    // this.getAllOtherDetails();
     let flage = localStorage.getItem("lastname");
     this.sidebarService.sidebarActive$.subscribe((state: any) => {
       this.sidebarActive = !state;
@@ -151,6 +154,8 @@ export class AddInvoiceComponent implements OnInit {
         }
       );
   }
+  showSuccessNotification: boolean = false;
+
 
   submitInvoice() {
     const invoiceData = {
@@ -192,7 +197,15 @@ export class AddInvoiceComponent implements OnInit {
     this.http.post('http://localhost:8080/webportal/v1/createinvoice', invoiceData, { headers })
       .subscribe(
         response => {
-          console.log('Invoice submitted successfully', response);
+          // Show success notification
+          this.showSuccessNotification = true;
+
+          // Hide the notification after 3 seconds
+          setTimeout(() => {
+            this.showSuccessNotification = false;
+            // After hiding the notification, navigate to InvoiceView
+            this.router.navigate(['/InvoiceView']);
+          }, 5000);
         },
         error => {
           console.error('Error submitting invoice', error);

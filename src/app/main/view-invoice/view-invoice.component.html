@@ -1,13 +1,12 @@
 <app-header></app-header>
-
 <app-sidebar></app-sidebar>
-<div class="mainPortion" [class.sidebar-open]="sidebarActive">
+
+<div class="mainPortion" [class.sidebar-open]="sidebarActive" [class.sidebar-closed]="!sidebarActive">
     <div class="dashboardMain">
-        <!-- invoices.component.html -->
         <div class="invoice-list-container">
             <h2>Invoices</h2>
             <form class="invoice_form">
-                <input type="text" placeholder="Search by invoice number or client name">
+                <input type="text" placeholder="Search by invoice number or vendor name">
                 <button type="submit">Filter</button>
             </form>
 
@@ -15,24 +14,32 @@
                 <thead>
                     <tr>
                         <th>Invoice #</th>
-                        <th>Client</th>
-                        <th>Date</th>
-                        <th>Total</th>
-                        <th>Status</th>
+                        <th>Vendor Name</th>
+                        <th>Vendor ID</th>
+                        <th>Invoice Date</th>
+                        <th>Invoice Amount</th>
+                        <th>Recurring</th>
+                        <th>Submission Date</th>
+                        <th>Submission Status</th>
+                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Loop through the invoices here -->
-                    <tr *ngFor="let invoice of invoices">
-                        <td>{{ invoice.id }}</td>
-                        <td>{{ invoice.client }}</td>
-                        <td>{{ invoice.date }}</td>
-                        <td>{{ invoice.total }}</td>
-                        <td>{{ invoice.status }}</td>
+                    <tr *ngFor="let invoice of invoiceDetails">
+                        <td>{{ invoice.invoiceNumber }}</td>
+                        <td>{{ invoice.items[0].vendorId }}</td>
+                        <td>{{ invoice.items[0].vendorId }}</td>
+                        <td>{{ invoice.invoiceCreatedDate }}</td>
+                        <td>{{ invoice.total.grandTotal }}</td>
+                        <td>no</td>
+                        <td>{{ invoice.invoiceCreatedDate }}</td>
+                        <td>Submitted</td>
+                        <td>Test</td>
                         <td>
-                            <button (click)="viewInvoice(invoice.id)">View</button>
-                            <button *ngIf="isAdmin" (click)="editInvoice(invoice.id)">Edit</button>
+                            <img src="assets/view-icon.svg" alt="View" (click)="viewInvoice(invoice.invoiceNumber)" />
+                            <img *ngIf="isAdmin" src="assets/edit-icon.svg" alt="Edit" (click)="editInvoice(invoice.invoiceNumber)" />
+                            <!-- <img src="assets/pdf-icon.svg" alt="Generate PDF" (click)="generatePDF(invoice.invoiceNumber)" /> -->
                         </td>
                     </tr>
                 </tbody>
